@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddActivity extends AppCompatActivity {
@@ -27,10 +28,26 @@ public class AddActivity extends AppCompatActivity {
     Bundle bundle;
     private int mYear, mMonth, mDay;
 
+    Spinner spinner;
+    ArrayAdapter<CharSequence> data;
+    ArrayList<ColorItem> colorItems;
+    SpinnerAdapter spinnerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
+        //----------------------------------------------------------------------
+        spinner = findViewById(R.id.spinner);
+        colorItems = new ArrayList<ColorItem>();
+        colorItems.add(new ColorItem("Red","#FFCCCC"));
+        colorItems.add(new ColorItem("Green","#99FF99"));
+        colorItems.add(new ColorItem("Blue","#CEFDFD"));
+        colorItems.add(new ColorItem("Yellow","#EEFFBB"));
+        spinnerAdapter = new SpinnerAdapter(this,colorItems);
+        spinner.setAdapter(spinnerAdapter);
+        //----------------------------------------------------------------------
 
         noteAdapter = new NoteAdapter(this);
         bundle = this.getIntent().getExtras();
@@ -39,10 +56,10 @@ public class AddActivity extends AppCompatActivity {
         editContext = findViewById(R.id.editContext);
 
         //--------------------------------------------------------------------
-        final Spinner spinner = (Spinner)findViewById(R.id.spinner);
-        final String[] color = {"blue", "yellow", "red", "white", "green"};
-        ArrayAdapter<String> colorList = new ArrayAdapter<>(AddActivity.this, android.R.layout.simple_spinner_dropdown_item, color);
-        spinner.setAdapter(colorList);
+//        final Spinner spinner = (Spinner)findViewById(R.id.spinner);
+//        final String[] color = {"blue", "yellow", "red", "white", "green"};
+//        ArrayAdapter<String> colorList = new ArrayAdapter<>(AddActivity.this, android.R.layout.simple_spinner_dropdown_item, color);
+//        spinner.setAdapter(colorList);
 
         //--------------------------------------------------------------------
         editDate.setOnTouchListener(new View.OnTouchListener() {
@@ -90,6 +107,8 @@ public class AddActivity extends AppCompatActivity {
                 }
             }
         });
+
+
 
     }
 }

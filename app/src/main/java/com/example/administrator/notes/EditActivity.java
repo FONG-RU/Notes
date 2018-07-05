@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class EditActivity extends AppCompatActivity {
@@ -33,12 +34,28 @@ public class EditActivity extends AppCompatActivity {
     String new_Date, new_Context;
     private int mYear, mMonth, mDay;
 
+    Spinner spinner;
+    ArrayAdapter<CharSequence> data;
+    ArrayList<ColorItem> colorItems;
+    SpinnerAdapter spinnerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //----------------------------------------------------------------------
+        spinner = findViewById(R.id.spinner);
+        colorItems = new ArrayList<ColorItem>();
+        colorItems.add(new ColorItem("Red","#FFCCCC"));
+        colorItems.add(new ColorItem("Green","#99FF99"));
+        colorItems.add(new ColorItem("Blue","#CEFDFD"));
+        colorItems.add(new ColorItem("Yellow","#EEFFBB"));
+        spinnerAdapter = new SpinnerAdapter(this,colorItems);
+        spinner.setAdapter(spinnerAdapter);
+        //----------------------------------------------------------------------
 
         editDate = findViewById(R.id.editDate);
         editContext = findViewById(R.id.editContext);
@@ -71,16 +88,10 @@ public class EditActivity extends AppCompatActivity {
         editContext.setText(cursor.getString(2));
 
         //--------------------------------------------------------------------
-        final Spinner spinner = (Spinner)findViewById(R.id.spinner);
-        final String[] color = {"blue", "yellow", "red", "white", "green"};
-        ArrayAdapter<String> colorList = new ArrayAdapter<>(EditActivity.this, android.R.layout.simple_spinner_dropdown_item, color);
-        spinner.setAdapter(colorList);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog dialog = null;
                 AlertDialog.Builder builder = null;
                 builder = new AlertDialog.Builder(EditActivity.this);
                 builder.setTitle("警告")
